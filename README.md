@@ -1,6 +1,10 @@
 Mangafox Download Script
 ========================
 
+My about
+-----
+Basically, I fork/hack into the program and fix some bugs.
+
 About
 -----
 Mangafox Download Script is a manga downloader similar to my old Onemanga Download Script (although onemanga.com shut down). It works by scraping the image URL from every page in a manga chapter. It then it downloads all the images.
