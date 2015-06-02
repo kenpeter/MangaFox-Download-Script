@@ -42,8 +42,8 @@ from itertools import islice
 URL_BASE = "http://mangafox.me/"
 
 # Gary
-if my_debug == 1:
-  pdb.set_trace()
+#if my_debug == 1:
+#  pdb.set_trace()
 
 def get_page_soup(url):
     """Download a page and return a BeautifulSoup object of the html"""
@@ -52,8 +52,8 @@ def get_page_soup(url):
 
 
 def get_chapter_urls(manga_name):
-    if my_debug == 1:
-      pdb.set_trace()
+   #if my_debug == 1:
+   #   pdb.set_trace()
 
     """Get the chapter list for a manga"""
     replace = lambda s, k: s.replace(k, '_')
@@ -96,7 +96,8 @@ def get_chapter_urls(manga_name):
         if my_debug == 1:
           pdb.set_trace() 
 
-        tmp_text = link.text.replace(':', '')
+        tmp_text = link.text.replace(':', '') # The new naruto manga
+        tmp_text = tmp_text.replace(' -', '') # http://mangafox.me/manga/magi_labyrinth_of_magic
 
         #chapters[replace_manga_name.sub('', link.text).strip()] = link['href']
         chapters[replace_manga_name.sub('', tmp_text).strip()] = link['href']
