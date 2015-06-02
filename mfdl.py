@@ -6,7 +6,7 @@
 
 # Gary
 my_debug = 0 
-my_root_dir = "/media/kenpeter/3E3C68780C3F137A/dell_backup_07022012/entertainment/manga"
+
 
 # Gary
 if my_debug == 1:
@@ -171,7 +171,7 @@ def download_urls(image_urls, manga_name, chapter_number):
     #  pdb.set_trace()
 
     """Download all images from a list"""
-    download_dir = my_root_dir + '/{0}/{1}/'.format(manga_name, chapter_number)
+    download_dir = my_dl_dir + '/{0}/{1}/'.format(manga_name, chapter_number)
     if os.path.exists(download_dir):
         shutil.rmtree(download_dir)
     os.makedirs(download_dir)
@@ -181,7 +181,7 @@ def download_urls(image_urls, manga_name, chapter_number):
         #if my_debug == 1:
         #  pdb.set_trace()  
     
-        filename = my_root_dir + '/{0}/{1}/{2:03}.jpg'.format(manga_name, chapter_number, i)
+        filename = my_dl_dir + '/{0}/{1}/{2:03}.jpg'.format(manga_name, chapter_number, i)
         print('Downloading {0} to {1}'.format(url, filename))
         urllib.urlretrieve(url, filename)
 
@@ -213,7 +213,7 @@ def download_manga_range(manga_name, range_start, range_end):
         print('===============================================')
         image_urls = get_chapter_image_urls(url_fragment)
         download_urls(image_urls, manga_name, chapter_number)
-        download_dir = my_root_dir + '/{0}/{1}'.format(manga_name, chapter_number)
+        download_dir = my_dl_dir + '/{0}/{1}'.format(manga_name, chapter_number)
         make_cbz(download_dir)
         shutil.rmtree(download_dir)
 
@@ -256,7 +256,7 @@ def download_manga(manga_name, chapter_number=None):
         #  pdb.set_trace()
 
         download_urls(image_urls, manga_name, chapter_number)
-        download_dir = my_root_dir + '/{0}/{1}'.format(manga_name, chapter_number)
+        download_dir = my_dl_dir + '/{0}/{1}'.format(manga_name, chapter_number)
         make_cbz(download_dir)
         shutil.rmtree(download_dir)
     else:
@@ -267,7 +267,7 @@ def download_manga(manga_name, chapter_number=None):
             print('===============================================')
             image_urls = get_chapter_image_urls(url_fragment)
             download_urls(image_urls, manga_name, chapter_number)
-            download_dir = my_root_dir + '/{0}/{1}'.format(manga_name, chapter_number)
+            download_dir = my_dl_dir + '/{0}/{1}'.format(manga_name, chapter_number)
             make_cbz(download_dir)
             shutil.rmtree(download_dir)
 
@@ -275,16 +275,20 @@ def download_manga(manga_name, chapter_number=None):
 if my_debug == 1:
   pdb.set_trace()
 
+# http://stackoverflow.com/questions/4033723/how-do-i-access-command-line-arguments-in-python
 if __name__ == '__main__':
-    if len(sys.argv) == 4:
+    if len(sys.argv) == 5:
+        my_dl_dir = sys.argv[4] 
         download_manga_range(sys.argv[1], sys.argv[2], sys.argv[3])
-    elif len(sys.argv) == 3:
+    elif len(sys.argv) == 4:
+        my_dl_dir = sys.argv[3]
         download_manga(sys.argv[1], sys.argv[2])
-    elif len(sys.argv) == 2:
+    elif len(sys.argv) == 3:
         # Gary
         #if my_debug == 1:
         #  pdb.set_trace()
-
+        
+        my_dl_dir = sys.argv[2]
         download_manga(sys.argv[1])
     else:
         print('USAGE: mfdl.py [MANGA_NAME]')
