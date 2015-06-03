@@ -82,8 +82,8 @@ def get_chapter_urls(manga_name):
         sys.exit('Error: Manga either does not exist or has no chapters')
 
     # Gary
-    if my_debug == 1:
-      pdb.set_trace()
+    #if my_debug == 1:
+    #  pdb.set_trace()
 
     #Gary
     tmp_manga_name = manga_name.replace('_', ' ')
@@ -96,11 +96,25 @@ def get_chapter_urls(manga_name):
         if my_debug == 1:
           pdb.set_trace() 
 
-        tmp_text = link.text.replace(':', '') # The new naruto manga
-        tmp_text = tmp_text.replace(' -', '') # http://mangafox.me/manga/magi_labyrinth_of_magic
-
+        # Bug
+        #tmp_text = link.text.replace(':', '') # The new naruto manga
+        #tmp_text = tmp_text.replace(' -', '') # http://mangafox.me/manga/magi_labyrinth_of_magic
         #chapters[replace_manga_name.sub('', link.text).strip()] = link['href']
-        chapters[replace_manga_name.sub('', tmp_text).strip()] = link['href']
+        #chapters[replace_manga_name.sub('', tmp_text).strip()] = link['href']
+
+        # Gary
+        # link.text === u'Magi - Labyrinth of Magic 267'
+        # http://stackoverflow.com/questions/393843/python-and-regular-expression-with-unicode
+        chapter_num = 0
+        # http://stackoverflow.com/questions/14550526/regex-for-both-integer-and-float
+        searchObj = re.search(ur'^.+ (?=.)([+-]?([0-9]*)(\.([0-9]+))?)$', link.text, re.M|re.I) 
+        if searchObj:
+          chapter_num = searchObj.group(1)
+        else:
+          print link.text
+          print "No chapter number found!"
+
+        chapters[chapter_num] = link['href']
     return chapters
 
 
@@ -221,15 +235,15 @@ def download_manga_range(manga_name, range_start, range_end):
 
 def download_manga(manga_name, chapter_number=None):
     # Gary
-    if my_debug == 1:
-      pdb.set_trace()
+    #if my_debug == 1:
+    #  pdb.set_trace()
 
     """Download all chapters of a manga"""
     chapter_urls = get_chapter_urls(manga_name)
 
     # Gary
-    if my_debug == 1:
-      pdb.set_trace()
+    #if my_debug == 1:
+    #  pdb.set_trace()
 
     if chapter_number:
         if chapter_number in chapter_urls:
@@ -273,8 +287,8 @@ def download_manga(manga_name, chapter_number=None):
             shutil.rmtree(download_dir)
 
 # Gary
-if my_debug == 1:
-  pdb.set_trace()
+#if my_debug == 1:
+#  pdb.set_trace()
 
 # http://stackoverflow.com/questions/4033723/how-do-i-access-command-line-arguments-in-python
 if __name__ == '__main__':
